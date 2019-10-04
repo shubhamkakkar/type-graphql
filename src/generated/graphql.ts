@@ -10,14 +10,28 @@ export type Scalars = {
   Float: number,
 };
 
+export type Message = {
+   __typename?: 'Message',
+  id: Scalars['ID'],
+  text: Scalars['String'],
+};
+
 export type Query = {
    __typename?: 'Query',
-  me?: Maybe<User>,
+  users?: Maybe<Array<User>>,
   user?: Maybe<User>,
+  me?: Maybe<User>,
+  messages: Array<Message>,
+  message: Message,
 };
 
 
 export type QueryUserArgs = {
+  id: Scalars['ID']
+};
+
+
+export type QueryMessageArgs = {
   id: Scalars['ID']
 };
 
@@ -102,6 +116,7 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>,
   ID: ResolverTypeWrapper<Scalars['ID']>,
   String: ResolverTypeWrapper<Scalars['String']>,
+  Message: ResolverTypeWrapper<Message>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
 };
 
@@ -111,12 +126,21 @@ export type ResolversParentTypes = {
   User: User,
   ID: Scalars['ID'],
   String: Scalars['String'],
+  Message: Message,
   Boolean: Scalars['Boolean'],
 };
 
+export type MessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
+  users?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>,
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>,
+  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
+  messages?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>,
+  message?: Resolver<ResolversTypes['Message'], ParentType, ContextType, RequireFields<QueryMessageArgs, 'id'>>,
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -125,6 +149,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type Resolvers<ContextType = any> = {
+  Message?: MessageResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
   User?: UserResolvers<ContextType>,
 };
