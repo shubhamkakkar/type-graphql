@@ -14,6 +14,7 @@ const schema = gql`
   type Message {
     id: ID!
     text: String!
+    user: User!
   }
 `;
 

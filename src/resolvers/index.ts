@@ -29,6 +29,10 @@ export const resolvers = {
         me: (): User => me,
         messages: (): Message[] => messages,
         // @ts-ignore
-        message: (parent: any, { id }: { id: String }): Message => messages[id]
+        message: (parent: any, { id }: { id: String }): Message => messages[id],
+    },
+    // a dif resolver is made as message in db doesnot havce user fields against who created it, here every message  is authenticated by me
+    Message: {
+        user: (parent: any, args: any): User => me
     },
 };
