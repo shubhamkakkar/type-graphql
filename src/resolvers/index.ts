@@ -1,38 +1,61 @@
-import { User, Message } from "../generated/graphql"
-
-let users: User[] = [
-    {
+let users = {
+    1: {
         id: '1',
         username: 'Robin Wieruch',
+        messageIds: [1],
     },
-    {
+    2: {
         id: '2',
         username: 'Dave Davids',
+        messageIds: [2],
     },
-];
-let messages: Message[] = [
-    {
+};
+
+const me = users[1];
+
+let messages = {
+    1: {
         id: '1',
         text: 'Hello World',
+        userId: '1',
     },
-    {
+    2: {
         id: '2',
         text: 'By World',
-    }
-]
-const me = users[1];
-export const resolvers = {
-    Query: {
-        users: (): User[] => users,
-        // @ts-ignore
-        user: (parent: any, { id }: { id: String }): User => users[id],
-        me: (): User => me,
-        messages: (): Message[] => messages,
-        // @ts-ignore
-        message: (parent: any, { id }: { id: String }): Message => messages[id],
+        userId: '2',
     },
-    // a dif resolver is made as message in db doesnot havce user fields against who created it, here every message  is authenticated by me
+};
+
+const resolvers = {
+    Query: {
+        users: () => {
+            return Object.values(users);
+        },
+        user: (parent, { id }) => {
+            return users[id];
+        },
+        me: (parent, args, { me }) => {
+            return me;
+        },
+        messages: () => {
+            return Object.values(messages);
+        },
+        message: (parent, { id }) => {
+            return messages[id];
+        },
+    },
+
+    User: {
+        messages: user => {
+            return Object.values(messages).filter(
+                message => message.userId === user.id,
+            );
+        },
+    },
+
     Message: {
-        user: (parent: any, args: any): User => me
+        user: message => {
+            return users[message.userId];
+        },
     },
 };
