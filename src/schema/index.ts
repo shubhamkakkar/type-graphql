@@ -1,24 +1,18 @@
 import { gql } from 'apollo-server-express';
-const schema = gql`
-    type Query {
-    users: [User!]
-    me: User
-    user(id: ID!): User
-    messages: [Message!]!
-    message(id: ID!): Message!
+
+import userSchema from './user';
+import messageSchema from './message';
+
+const linkSchema = gql`
+  type Query {
+    _: Boolean
   }
-  type User {
-    id: ID!
-    username: String!
-    messages: [Message!]
+  type Mutation {
+    _: Boolean
   }
-  type Message {
-    id: ID!
-    text: String!
-    user: User!
+  type Subscription {
+    _: Boolean
   }
 `;
 
-
-
-export default schema
+export default [linkSchema, userSchema, messageSchema];
