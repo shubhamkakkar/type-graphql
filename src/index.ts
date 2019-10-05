@@ -2,7 +2,7 @@ import express from 'express';
 import * as bodyParser from 'body-parser';
 import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
-import { resolvers } from './resolvers';
+import resolvers from './resolvers';
 import typeDefs from './schema/temp';
 
 const server = new ApolloServer({ resolvers, typeDefs });

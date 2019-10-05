@@ -14,13 +14,14 @@ export type Message = {
    __typename?: 'Message',
   id: Scalars['ID'],
   text: Scalars['String'],
+  user: User,
 };
 
 export type Query = {
    __typename?: 'Query',
   users?: Maybe<Array<User>>,
-  user?: Maybe<User>,
   me?: Maybe<User>,
+  user?: Maybe<User>,
   messages: Array<Message>,
   message: Message,
 };
@@ -39,6 +40,7 @@ export type User = {
    __typename?: 'User',
   id: Scalars['ID'],
   username: Scalars['String'],
+  messages?: Maybe<Array<Message>>,
 };
 
 
@@ -133,12 +135,13 @@ export type ResolversParentTypes = {
 export type MessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>,
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   users?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>,
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>,
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>,
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>,
   messages?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>,
   message?: Resolver<ResolversTypes['Message'], ParentType, ContextType, RequireFields<QueryMessageArgs, 'id'>>,
 };
@@ -146,6 +149,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  messages?: Resolver<Maybe<Array<ResolversTypes['Message']>>, ParentType, ContextType>,
 };
 
 export type Resolvers<ContextType = any> = {
